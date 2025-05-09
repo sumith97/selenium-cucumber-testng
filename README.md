@@ -1,6 +1,6 @@
 # Selenium Cucumber TestNG Framework
 
-[![Selenium Tests](https://github.com/{your-username}/selenium-cucumber-testng/actions/workflows/selenium-tests.yml/badge.svg)](https://github.com/{your-username}/selenium-cucumber-testng/actions/workflows/selenium-tests.yml)
+[![Selenium Tests](https://github.com/sumith97/selenium-cucumber-testng/actions/workflows/selenium-tests.yml/badge.svg)](https://github.com/sumith97/selenium-cucumber-testng/actions/workflows/selenium-tests.yml)
 
 This is a test automation framework built using:
 - Selenium WebDriver
