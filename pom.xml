@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
-            <version>${extentreports.version}</version>
+            <version>5.1.2</version>
         </dependency>
         <dependency>
             <groupId>tech.grasshopper</groupId>
