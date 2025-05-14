@@ -38,10 +38,7 @@ jobs:
       with:
         name: test-results
         path: |
-          target/cucumber-reports/
-          target/screenshots/
-          target/surefire-reports/
-          target/extent-reports/
+          target
 
     - name: Generate Cucumber Report
       if: always()
