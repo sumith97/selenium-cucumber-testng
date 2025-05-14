@@ -41,6 +41,7 @@ jobs:
           target/cucumber-reports/
           target/screenshots/
           target/surefire-reports/
+          target/extent-reports/
 
     - name: Generate Cucumber Report
       if: always()
