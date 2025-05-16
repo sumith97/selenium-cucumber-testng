@@ -22,6 +22,7 @@ public class WebDriverHooks {
     private static WebDriver driver;
     private static final String SCREENSHOTS_DIR = "target/screenshots";
     private static final boolean IS_CI = System.getenv("CI") != null;
+    private static final boolean IS_DOCKER = Files.exists(Paths.get("/.dockerenv"));
     
     static {
         // Initialize WebDriver once when the class is loaded
@@ -38,13 +39,13 @@ public class WebDriverHooks {
         options.addArguments("--disable-features=PasswordManagerReauthentication");
         options.addArguments("--disable-features=PasswordManagerReauthenticationUI");
         
-        // CI-specific options
-        if (IS_CI) {
+        // CI/Docker-specific options
+        if (IS_CI || IS_DOCKER) {
             options.addArguments("--headless");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--disable-gpu");
-            // Add a unique user data directory for CI
+            // Add a unique user data directory
             options.addArguments("--user-data-dir=/tmp/chrome-" + System.currentTimeMillis());
         }
         
