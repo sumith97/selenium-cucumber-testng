@@ -26,6 +26,8 @@ public class WebDriverHooks {
     static {
         // Initialize WebDriver once when the class is loaded
         ChromeOptions options = new ChromeOptions();
+        
+        // Common options for both local and CI
         options.addArguments("--disable-blink-features=AutomationControlled");
         options.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
         options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
@@ -35,6 +37,16 @@ public class WebDriverHooks {
         options.addArguments("--disable-features=PasswordManager");
         options.addArguments("--disable-features=PasswordManagerReauthentication");
         options.addArguments("--disable-features=PasswordManagerReauthenticationUI");
+        
+        // CI-specific options
+        if (IS_CI) {
+            options.addArguments("--headless");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+            // Add a unique user data directory for CI
+            options.addArguments("--user-data-dir=/tmp/chrome-" + System.currentTimeMillis());
+        }
         
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
