@@ -13,6 +13,7 @@ import org.testng.annotations.DataProvider;
         "json:target/cucumber-reports/CucumberTestReport.json",
         "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
     },
+    tags = "${cucumber.filter.tags}",
     monochrome = true,
     dryRun = false,
     publish = true

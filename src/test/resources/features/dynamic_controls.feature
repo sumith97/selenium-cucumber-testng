@@ -1,3 +1,4 @@
+@fun
 Feature: Dynamic Controls on The Internet Website
   As a user
   I want to interact with dynamic controls

@@ -32,6 +32,11 @@ public class FormHandlingSteps {
     @And("I click the login button")
     public void iClickTheLoginButton() {
         driver.findElement(By.cssSelector("button[type='submit']")).click();
+        // try {
+        //     Thread.sleep(3000);
+        // } catch (InterruptedException e) {
+        //     e.printStackTrace();
+        // }
     }
 
     @Then("I should see a success message")

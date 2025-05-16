@@ -23,30 +23,34 @@ public class WebDriverHooks {
     private static final String SCREENSHOTS_DIR = "target/screenshots";
     private static final boolean IS_CI = System.getenv("CI") != null;
     
-    @Before
-    public void setupDriver() {
-        if (driver == null) {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--start-maximized");
-            options.addArguments("--disable-notifications");
-            
-            // Add CI-specific options
-            if (IS_CI) {
-                options.addArguments("--headless");
-                options.addArguments("--no-sandbox");
-                options.addArguments("--disable-dev-shm-usage");
-            }
-            
-            driver = new ChromeDriver(options);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-            
-            // Create screenshots directory if it doesn't exist
-            try {
-                Files.createDirectories(Paths.get(SCREENSHOTS_DIR));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    static {
+        // Initialize WebDriver once when the class is loaded
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-blink-features=AutomationControlled");
+        options.addArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+        
+        // Disable password safety prompts
+        options.addArguments("--disable-password-manager-reauthentication");
+        options.addArguments("--disable-features=PasswordManager");
+        options.addArguments("--disable-features=PasswordManagerReauthentication");
+        options.addArguments("--disable-features=PasswordManagerReauthenticationUI");
+        
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
+        
+        // Create screenshots directory if it doesn't exist
+        try {
+            Files.createDirectories(Paths.get(SCREENSHOTS_DIR));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+    
+    @Before
+    public void setUp() {
+        // Clear cookies and cache before each scenario
+        driver.manage().deleteAllCookies();
     }
 
     @After
@@ -69,14 +73,18 @@ public class WebDriverHooks {
                 e.printStackTrace();
             }
         }
-        
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-        }
     }
 
     public static WebDriver getDriver() {
         return driver;
+    }
+    
+    // Add a shutdown hook to quit the driver when JVM shuts down
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (driver != null) {
+                driver.quit();
+            }
+        }));
     }
 } 
