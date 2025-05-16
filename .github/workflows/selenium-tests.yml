@@ -18,16 +18,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Build and Run Tests in Docker
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    - name: Run Tests
       run: |
-        # Build Docker image
-        docker build -t selenium-tests .
-        
-        # Run tests in Docker
         if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ -n "${{ github.event.inputs.tags }}" ]; then
-          docker run --rm -v "$(pwd)/target:/app/target" selenium-tests mvn clean test "-Dcucumber.filter.tags=${{ github.event.inputs.tags }}"
+          mvn clean test "-Dcucumber.filter.tags=${{ github.event.inputs.tags }}"
         else
-          docker run --rm -v "$(pwd)/target:/app/target" selenium-tests mvn clean test
+          mvn clean test
         fi
       
     - name: Upload Test Results
