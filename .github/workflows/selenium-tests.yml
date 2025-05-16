@@ -1,11 +1,12 @@
 name: Selenium Tests
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Cucumber tags to run (e.g., @smoke, @regression). Leave empty to run all tests.'
+        required: false
+        default: ''
   schedule:
     # Runs at 9:00 AM and 9:00 PM UTC every day
     - cron: '0 9,21 * * *'
@@ -30,7 +31,12 @@ jobs:
         chrome-version: stable
 
     - name: Run Tests
-      run: mvn clean test
+      run: |
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ -n "${{ github.event.inputs.tags }}" ]; then
+          mvn clean test "-Dcucumber.filter.tags=${{ github.event.inputs.tags }}"
+        else
+          mvn clean test
+        fi
       
     - name: Upload Test Results
       if: always()
