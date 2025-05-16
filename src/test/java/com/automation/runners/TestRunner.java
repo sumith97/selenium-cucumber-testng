@@ -13,7 +13,7 @@ import org.testng.annotations.DataProvider;
         "json:target/cucumber-reports/CucumberTestReport.json",
         "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
     },
-    tags = "${cucumber.filter.tags}",
+    tags = "",  // Empty string means run all tests
     monochrome = true,
     dryRun = false,
     publish = true

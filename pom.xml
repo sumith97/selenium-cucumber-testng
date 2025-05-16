@@ -17,6 +17,7 @@
         <testng.version>7.9.0</testng.version>
         <extentreports.version>5.1.1</extentreports.version>
         <slf4j.version>2.0.12</slf4j.version>
+        <cucumber.filter.tags></cucumber.filter.tags>
     </properties>
 
     <dependencies>
@@ -90,9 +91,6 @@
                     <includes>
                         <include>**/*Runner.java</include>
                     </includes>
-                    <systemPropertyVariables>
-                        <cucumber.filter.tags>${cucumber.filter.tags}</cucumber.filter.tags>
-                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
