@@ -25,6 +25,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Run Tests
+      id: test
       run: |
         if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ -n "${{ github.event.inputs.tags }}" ]; then
           mvn clean test "-Dcucumber.filter.tags=${{ github.event.inputs.tags }}"
@@ -45,4 +46,26 @@ jobs:
       uses: deblockt/cucumber-report-annotations-action@v1.7
       with:
         access-token: ${{ secrets.GITHUB_TOKEN }}
-        path: "target/cucumber-reports/CucumberTestReport.json" 
+        path: "target/cucumber-reports/CucumberTestReport.json"
+
+    - name: Publish Test Results
+      if: always()
+      run: |
+        # Create JSON payload with test results
+        echo '{
+          "metadata": {
+            "workflow": "'${{ github.workflow }}'",
+            "trigger": "'${{ github.event_name }}'",
+            "status": "'${{ job.status }}'",
+            "repository": "'${{ github.repository }}'",
+            "run_id": "'${{ github.run_id }}'",
+            "timestamp": "'$(date -u +"%Y-%m-%dT%H:%M:%SZ")'"
+          },
+          "test_results": '$(cat target/cucumber-reports/CucumberTestReport.json)',
+          "report_url": "'${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'"
+        }' > test-results.json
+
+        # Send JSON to the specified API
+        curl -X POST "https://v0-publish-json-to-webpage.vercel.app/api/post" \
+          -H "Content-Type: application/json" \
+          -d @test-results.json 
