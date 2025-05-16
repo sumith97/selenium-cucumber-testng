@@ -7,12 +7,11 @@ RUN apt-get update && apt-get install -y \
     unzip \
     xvfb \
     libxi6 \
-    libgconf-2-4 \
     libnss3 \
     libfontconfig1 \
     libxcb1 \
     libxrandr2 \
-    libasound2 \
+    libasound2t64 \
     libpangocairo-1.0-0 \
     libatk1.0-0 \
     libatk-bridge2.0-0 \
