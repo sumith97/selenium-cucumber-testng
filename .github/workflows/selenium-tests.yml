@@ -70,16 +70,13 @@ jobs:
           -H "Content-Type: application/json" \
           -d @test-results.json
 
-    - name: Publish Extent Report
+    - name: Publish Test Results Archive
       if: always()
       run: |
-        # Check if Extent Report exists
-        if [ ! -f "target/SparkReport/Spark.html" ]; then
-          echo "Extent Report not found at target/SparkReport/Spark.html"
-          exit 1
-        fi
+        # Create a zip file of the test results
+        zip -r test-results.zip target/
 
-        # Send Spark.html directly to the API
+        # Send zip file to the API
         curl -X POST "https://v0-publish-json-to-webpage.vercel.app/api/post" \
-          -H "Content-Type: text/html" \
-          --data-binary "@target/SparkReport/Spark.html" 
+          -H "Content-Type: application/zip" \
+          --data-binary "@test-results.zip" 
