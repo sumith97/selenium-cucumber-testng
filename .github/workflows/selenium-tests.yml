@@ -76,6 +76,7 @@ jobs:
         # Create a zip file of the test results
         zip -r test-results.zip target/
         echo "Test results archive created: test-results.zip"
+        ls -la
 
         # Send zip file to the API
         curl -X POST "https://v0-publish-json-to-webpage.vercel.app/api/post" \
