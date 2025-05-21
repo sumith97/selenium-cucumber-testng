@@ -3,7 +3,6 @@ import com.automation.hooks.WebDriverHooks;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-
 import java.time.Duration;
 import org.openqa.selenium.By;
 import io.cucumber.java.en.When;
@@ -11,7 +10,6 @@ import io.cucumber.java.en.Then;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.interactions.Actions;
-
 import io.cucumber.java.en.Given;
 import java.io.File;
 
@@ -129,11 +127,5 @@ public class Mouse_Keyboard_Steps {
         actions.moveToElement(dropdownMenu).doubleClick().perform();
         WebElement contextMenu3 = driver.findElement(By.id("context-menu-3"));
         Assert.assertTrue(contextMenu3.isDisplayed());
-    }
-    
-    
-    
-
-    
-    
+    }   
 }
