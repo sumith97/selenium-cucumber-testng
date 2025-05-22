@@ -100,10 +100,6 @@ public class Mouse_Keyboard_Steps {
         actions.release(canvas).build().perform();
     }
 
-    @Then("Navigate back to previous page")
-    public void then_navigate_back_to_previous_page() {
-        driver.navigate().back();
-    }
 
     @When("I click on the Dropdown Menu page")
     public void i_click_on_the_dropdown_menu_page() {

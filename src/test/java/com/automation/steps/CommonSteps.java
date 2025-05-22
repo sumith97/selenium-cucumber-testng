@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import io.cucumber.java.en.Then;
 
 import java.time.Duration;
 
@@ -33,4 +34,19 @@ public class CommonSteps {
         WebElement link = wait.until(ExpectedConditions.elementToBeClickable(By.linkText(pageName)));
         link.click();
     }
+
+    @Then("Navigate back to forward page")
+    public void thenNavigateBackToForwardPage() {
+        driver.navigate().forward();
+    }
+    @Then("Navigate back to previous page")
+    public void then_navigate_back_to_previous_page() {
+        driver.navigate().back();
+    }
+    @Then("check if I am in Home page")
+    public void checkIfIAmInHomePage() {
+        Assert.assertEquals(driver.getCurrentUrl(), "https://bonigarcia.dev/selenium-webdriver-java/");
+    }
+    
+    
 } 
