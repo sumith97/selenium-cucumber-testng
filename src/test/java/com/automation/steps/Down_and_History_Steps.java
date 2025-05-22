@@ -11,6 +11,9 @@ import io.cucumber.java.en.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.support.ui.Select;
 
 public class Down_and_History_Steps {
 
@@ -38,6 +41,24 @@ public class Down_and_History_Steps {
             "Expected options not found in the list. Expected: " + expectedOptions + ", Found: " + optionValues);
         Assert.assertEquals(option.getAttribute("value"), string);
     }
-    
+
+    @Then("I select {string} from the data list")
+    public void i_select_from_the_data_list(String string) {
+        WebElement dataList = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("my-datalist")));
+        dataList.click();
+        // Use keyboard actions to simulate user typing and selecting
+        dataList.sendKeys(string);
+        // Press Enter to select the option
+       // dataList.sendKeys(Keys.ENTER);
+        // Verify the value was set correctly
+        Assert.assertEquals(dataList.getAttribute("value"), string);
+    }
+
+    @Then("I select {string} from a selection dropdown")
+    public void i_select_from_a_selection_dropdown(String string) {
+        Select select = new Select(driver.findElement(By.name("my-select")));
+        select.selectByVisibleText(string);
+        Assert.assertEquals(select.getFirstSelectedOption().getText(), string);
+    }
 
 }
