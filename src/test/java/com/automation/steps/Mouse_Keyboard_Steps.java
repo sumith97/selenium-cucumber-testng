@@ -69,11 +69,6 @@ public class Mouse_Keyboard_Steps {
         submitButton.click();
     }
 
-    @Then("I should see the text {string}")
-    public void i_should_see_the_text(String string) {
-        WebElement message = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(),'"+string+"')]")));
-        Assert.assertEquals(message.getText(), string);
-    }
 
     @When("I click on the canvas page")
     public void i_click_on_the_canvas_page() {
